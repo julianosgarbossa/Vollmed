@@ -11,14 +11,26 @@ struct SpecialistCardView: View {
     
     var specialist: Specialist
     
+    private let service = WebService()
+    
+    @State private var specialistImage: UIImage?
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 16.0) {
-                Image(.doctor)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 64, height: 64)
-                    .clipShape(Circle())
+                if let specialistImage {
+                    Image(uiImage: specialistImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 64, height: 64)
+                        .clipShape(Circle())
+                } else {
+                    Image(.doctor)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 64, height: 64)
+                        .clipShape(Circle())
+                }
                 
                 VStack(alignment: .leading, spacing: 8.0) {
                     Text(specialist.name)
@@ -34,6 +46,21 @@ struct SpecialistCardView: View {
         .padding()
         .background(Color(.lightBlue).opacity(0.15))
         .cornerRadius(16.0)
+        .onAppear() {
+            Task {
+                await self.downloadImage()
+            }
+        }
+    }
+    
+    // MARK: - Methods
+    private func downloadImage() async {
+        do {
+            let result = try await self.service.downloadImage(imageURL: specialist.imageUrl)
+            self.specialistImage = result
+        } catch {
+            print("Erro ao carregar a imagem do especialista: \(error.localizedDescription)")
+        }
     }
 }
 
