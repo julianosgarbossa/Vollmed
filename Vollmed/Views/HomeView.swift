@@ -12,6 +12,8 @@ struct HomeView: View {
     private let service = WebService()
     
     @State private var specialists: [Specialist] = []
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -44,6 +46,15 @@ struct HomeView: View {
                 await self.getSpecialists()
             }
         }
+        .alert("Error", isPresented: $showAlert, actions: {
+            Button("Tentar Novamente") {
+                Task {
+                    await self.getSpecialists()
+                }
+            }
+        }, message: {
+            Text(alertMessage)
+        })
     }
     
     // MARK: - Methods
@@ -54,12 +65,13 @@ struct HomeView: View {
                 self.specialists = result
             }
         } catch {
-            print("Ocorreu um erro ao obter os especialistas: \(error.localizedDescription)")
+            self.alertMessage = "Ocorreu um erro ao obter os especialistas: \(error.localizedDescription)"
+            showAlert = true
         }
-        
     }
 }
 
 #Preview {
     HomeView()
 }
+
