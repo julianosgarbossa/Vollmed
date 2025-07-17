@@ -10,6 +10,8 @@ import UIKit
 struct WebService {
     
     private let baseURL = "http://localhost:3000"
+    private let imageCache = NSCache<NSString, UIImage>()
+
     
     func downloadImage(imageURL: String) async throws -> UIImage? {
         guard let url = URL(string: imageURL) else {
@@ -17,9 +19,21 @@ struct WebService {
             return nil
         }
         
+        // Verifica cache
+        if let cachedImage = imageCache.object(forKey: imageURL as NSString) {
+            return cachedImage
+        }
+        
         let (data, _) = try await URLSession.shared.data(from: url)
         
-        return UIImage(data: data)
+        guard let image = UIImage(data: data) else {
+            return nil
+        }
+        
+        // Salva imagem no cache
+        imageCache.setObject(image, forKey: imageURL as NSString)
+        
+        return image
     }
     
     func getAllSpecialists() async throws -> [Specialist]? {
