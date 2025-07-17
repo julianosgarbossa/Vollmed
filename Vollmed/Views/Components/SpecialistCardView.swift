@@ -41,7 +41,7 @@ struct SpecialistCardView: View {
             }
             
             NavigationLink {
-                ScheduleAppointmentView()
+                ScheduleAppointmentView(specialistId: specialist.id)
             } label: {
                 ButtonView(text: "Agendar consulta")
             }
