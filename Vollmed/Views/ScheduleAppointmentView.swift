@@ -12,10 +12,18 @@ struct ScheduleAppointmentView: View {
     private let service = WebService()
     
     var specialistId: String
+    var isRescheduleView: Bool
+    var appointmentId: String?
     
     @State private var selectedDate = Date()
     @State private var showAlert: Bool = false
     @State private var isAppointmentScheduled: Bool = false
+    
+    init(specialistId: String, isRescheduleView: Bool = false, appointmentId: String? = nil) {
+        self.specialistId = specialistId
+        self.isRescheduleView = isRescheduleView
+        self.appointmentId = appointmentId
+    }
     
     var body: some View {
         VStack {
@@ -31,14 +39,18 @@ struct ScheduleAppointmentView: View {
             
             Button {
                 Task {
-                    await self.scheduleAppointment()
+                    if isRescheduleView {
+                        await self.rescheduleAppointment()
+                    } else {
+                        await self.scheduleAppointment()
+                    }
                 }
             } label: {
-                ButtonView(text: "Agendar Consulta")
+                ButtonView(text: isRescheduleView ? "Reagendar Conculta" : "Agendar Consulta")
             }
         }
         .padding()
-        .navigationTitle("Agendar Consulta")
+        .navigationTitle(isRescheduleView ? "Reagendar Conculta" : "Agendar Consulta")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
             UIDatePicker.appearance().minuteInterval = 15
@@ -48,7 +60,7 @@ struct ScheduleAppointmentView: View {
                 showAlert = false
             }
         }, message: {
-            Text(isAppointmentScheduled ? "Consulta agendada com sucesso." : "Ocorreu um erro ao agendar a consulta. Por favor tente novamente.")
+            Text(isAppointmentScheduled ? "Consulta \(isRescheduleView ? "reagendada" : "agendada") com sucesso." : "Ocorreu um erro ao \(isRescheduleView ? "reagendar" : "agendar") a consulta. Por favor tente novamente.")
         })
     }
     
@@ -56,6 +68,21 @@ struct ScheduleAppointmentView: View {
     private func scheduleAppointment() async {
         do {
             if let _ = try await self.service.scheduleAppointment(specialistId: specialistId, patientId: "4d475b97-2d76-41a4-8a91-07c5f95659f5", date: selectedDate.convertToString()) {
+                isAppointmentScheduled = true
+            } else {
+                isAppointmentScheduled = false
+            }
+            showAlert = true
+        } catch {
+            isAppointmentScheduled = false
+            showAlert = true
+        }
+    }
+    
+    private func rescheduleAppointment() async {
+        do {
+            guard let appointmentId else { return }
+            if let _ = try await self.service.rescheduledAppointment(appointmentId: appointmentId, newDate: selectedDate.convertToString()) {
                 isAppointmentScheduled = true
             } else {
                 isAppointmentScheduled = false

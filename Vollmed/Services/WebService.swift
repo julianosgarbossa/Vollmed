@@ -96,4 +96,30 @@ struct WebService {
         
         return appointmentResponse
     }
+    
+    // MARK: - Methods PATCH
+    func rescheduledAppointment(appointmentId: String, newDate: String) async throws -> ScheduleAppointmentResponse? {
+        
+        let endpoint = baseURL + "/consulta/\(appointmentId)"
+        
+        guard let url = URL(string: endpoint) else {
+            print("Erro na URL!")
+            return nil
+        }
+        
+        let requestData: [String : String] = ["data": newDate]
+        
+        let jsonData = try JSONSerialization.data(withJSONObject: requestData)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        let appointmentResponse = try JSONDecoder().decode(ScheduleAppointmentResponse.self, from: data)
+        
+        return appointmentResponse
+    }
 }
