@@ -14,6 +14,7 @@ struct WebService {
 
     // MARK: - Methods GET
     func downloadImage(imageURL: String) async throws -> UIImage? {
+        
         guard let url = URL(string: imageURL) else {
             print("Erro na URL!")
             return nil
@@ -38,6 +39,7 @@ struct WebService {
     
     func getAllSpecialists() async throws -> [Specialist]? {
         let endpoint = baseURL + "/especialista"
+        
         guard let url = URL(string: endpoint) else {
             print("Erro na URL!")
             return nil
@@ -48,6 +50,21 @@ struct WebService {
         let specialists = try JSONDecoder().decode([Specialist].self, from: data)
         
         return specialists
+    }
+    
+    func getAllAppointmentsFromPatient(patientId: String) async throws -> [Appointment]? {
+        let endpoint = baseURL + "/paciente/\(patientId)/consultas"
+        
+        guard let url = URL(string: endpoint) else {
+            print("Erro na URL!")
+            return nil
+        }
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+        
+        let appointmentsFromPatient = try JSONDecoder().decode([Appointment].self, from: data)
+        
+        return appointmentsFromPatient
     }
     
     // MARK: - Methods POST
