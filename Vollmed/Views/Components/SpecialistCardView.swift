@@ -55,8 +55,8 @@ struct SpecialistCardView: View {
                         ButtonView(text: "Remarcar")
                     }
 
-                    Button {
-                        print("Botão de cancelar pressionado")
+                    NavigationLink {
+                        CancelAppointmentView()
                     } label: {
                         ButtonView(text: "Cancelar", buttonType: .cancel)
                     }
