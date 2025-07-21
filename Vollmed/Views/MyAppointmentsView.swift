@@ -13,9 +13,21 @@ struct MyAppointmentsView: View {
     @State private var appointments: [Appointment] = []
     
     var body: some View {
-        ScrollView() {
-            ForEach(appointments) { appointment in
-                SpecialistCardView(specialist: appointment.specialist, appointment: appointment)
+        ZStack {
+            if appointments.isEmpty {
+                Text("Não há nenhuma consulta agendada no momento!")
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .font(.title2)
+                    .foregroundStyle(.cancel)
+            } else {
+                ScrollView {
+                    VStack {
+                        ForEach(appointments) { appointment in
+                            SpecialistCardView(specialist: appointment.specialist, appointment: appointment)
+                        }
+                    }
+                }
             }
         }
         .scrollIndicators(.hidden)
