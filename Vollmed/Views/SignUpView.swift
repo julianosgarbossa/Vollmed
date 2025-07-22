@@ -45,74 +45,34 @@ struct SignUpView: View {
                     .foregroundStyle(.gray)
                     .padding(.bottom)
                 
-                Text("Nome")
-                    .font(.title3)
-                    .foregroundStyle(.accent)
-                    .bold()
+                TextView(text: "Nome")
                 
-                TextField("Insira seu nome completo", text: $name)
-                    .padding(14)
-                    .background(Color.gray.opacity(0.25))
-                    .clipShape(.rect(cornerRadius: 14))
-                    .autocorrectionDisabled()
+                TextFieldView(placeholder: "Insira seu nome completo", text: $name, textInputAutocapitalization: .words)
                 
-                Text("Email")
-                    .font(.title3)
-                    .foregroundStyle(.accent)
-                    .bold()
+                TextView(text: "Email")
                 
-                TextField("Insira o seu email", text: $email)
-                    .padding(14)
-                    .background(Color.gray.opacity(0.25))
-                    .clipShape(.rect(cornerRadius: 14))
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.emailAddress)
+                TextFieldView(placeholder: "Insira o seu email", text: $email, keyboardType: .emailAddress)
                 
-                Text("Senha")
-                    .font(.title3)
-                    .foregroundStyle(.accent)
-                    .bold()
+                TextView(text: "Senha")
                 
-                SecureField("Insira sua senha", text: $password)
-                    .padding(14)
-                    .background(Color.gray.opacity(0.25))
-                    .clipShape(.rect(cornerRadius: 14))
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
+                SecureFieldView(placeholder: "Insira sua senha", text: $password)
                 
-                Text("Telefone")
-                    .font(.title3)
-                    .foregroundStyle(.accent)
-                    .bold()
+                TextView(text: "Telefone")
                 
-                TextField("Insira o seu telefone", text: $phoneNumber)
-                    .padding(14)
-                    .background(Color.gray.opacity(0.25))
-                    .clipShape(.rect(cornerRadius: 14))
-                    .keyboardType(.numberPad)
+                TextFieldView(placeholder: "Insira o seu telefone", text: $phoneNumber, keyboardType: .numberPad)
                 
-                Text("CPF")
-                    .font(.title3)
-                    .foregroundStyle(.accent)
-                    .bold()
+                TextView(text: "CPF")
                 
-                TextField("Insira o seu CPF", text: $cpf)
-                    .padding(14)
-                    .background(Color.gray.opacity(0.25))
-                    .clipShape(.rect(cornerRadius: 14))
-                    .keyboardType(.numberPad)
+                TextFieldView(placeholder: "Insira o seu CPF", text: $cpf, keyboardType: .numberPad)
                 
-                Text("Selecione o seu plano de saúde")
-                    .bold()
-                    .font(.title3)
-                    .foregroundStyle(.accent)
+                TextView(text: "Selecione o seu plano de saúde")
                 
                 Picker("Plano de saúde", selection: $healthPlan) {
                     ForEach(healthPlans, id: \.self) { healhPlan in
                         Text(healhPlan)
                     }
                 }
+                .pickerStyle(.menu)
                 
                 Button {
                     //

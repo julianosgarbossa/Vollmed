@@ -29,30 +29,13 @@ struct SignInView: View {
                 .foregroundStyle(.gray)
                 .padding(.bottom)
             
-            Text("Email")
-                .font(.title3)
-                .bold()
-                .foregroundStyle(.accent)
+            TextView(text: "Email")
             
-            TextField("Insira seu email", text: $email)
-                .padding(14)
-                .background(Color.gray.opacity(0.25))
-                .clipShape(.rect(cornerRadius: 14))
-                .autocorrectionDisabled()
-                .keyboardType(.emailAddress)
-                .textInputAutocapitalization(.never)
+            TextFieldView(placeholder: "Insira seu email", text: $email, keyboardType: .emailAddress)
             
-            Text("Senha")
-                .font(.title3)
-                .bold()
-                .foregroundStyle(.accent)
+            TextView(text: "Senha")
             
-            SecureField("Insira sua senha", text: $password)
-                .padding(14)
-                .background(Color.gray.opacity(0.25))
-                .clipShape(.rect(cornerRadius: 14))
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
+            SecureFieldView(placeholder: "Insira sua senha", text: $password)
             
             Button(action:{
                 //
