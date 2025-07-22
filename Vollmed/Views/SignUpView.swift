@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SignUpView: View {
     
+    private let service = WebService()
+    
     @Environment(\.dismiss) private var dismiss
     
     @State private var name: String = ""
@@ -17,6 +19,9 @@ struct SignUpView: View {
     @State private var cpf: String = ""
     @State private var phoneNumber: String = ""
     @State private var healthPlan: String
+    
+    @State private var showAlert: Bool = false
+    @State private var isPatientRegistered: Bool = false
     
     let healthPlans: [String] = [
         "Amil", "Unimed", "Bradesco Saúde", "SulAmérica", "Hapvida", "Notredame Intermédica", "São Francisco Saúde", "Golden Cross", "Medial Saúde", "América Saúde", "Outro"
@@ -75,7 +80,9 @@ struct SignUpView: View {
                 .pickerStyle(.menu)
                 
                 Button {
-                    //
+                    Task {
+                        await self.registerPatient()
+                    }
                 } label: {
                     ButtonView(text: "Cadastrar")
                 }
@@ -93,7 +100,37 @@ struct SignUpView: View {
         .scrollIndicators(.hidden)
         .navigationBarBackButtonHidden()
         .padding()
+        .alert(isPatientRegistered ? "Sucesso" : "Error", isPresented: $showAlert, actions: {
+            Button("OK") {
+                showAlert = false
+                if isPatientRegistered {
+                    self.dismiss()
+                }
+            }
+        }, message: {
+            Text(isPatientRegistered ? "Paciente registrado com sucesso." : "Erro ao registar paciente. Tente novamente!")
+        })
     }
+    
+    // MARK: - Methods
+    private func registerPatient() async {
+        let patient = PatientRequest(name: self.name,
+                                     email: self.email,
+                                     password: self.password,
+                                     phoneNumber: self.phoneNumber,
+                                     cpf: self.cpf,
+                                     healthPlan: self.healthPlan)
+        do {
+            if let _ = try await self.service.registerPatient(patient: patient) {
+                self.isPatientRegistered = true
+            }
+            self.showAlert = true
+        } catch  {
+            self.showAlert = true
+            print("Ocorreu um erro ao cadastrar o paciente: \(error.localizedDescription)")
+        }
+    }
+    
 }
 
 #Preview {

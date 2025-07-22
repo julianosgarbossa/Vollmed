@@ -97,6 +97,30 @@ struct WebService {
         return appointmentResponse
     }
     
+    func registerPatient(patient: PatientRequest) async throws -> PatientResponse? {
+        
+        let endpoint = baseURL + "/paciente"
+        
+        guard let url = URL(string: endpoint) else {
+            print("Erro na URL!")
+            return nil
+        }
+        
+        let jsonData = try JSONEncoder().encode(patient)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+ 
+        let patientResponse = try JSONDecoder().decode(PatientResponse.self, from: data)
+        
+        return patientResponse
+    }
+    
     // MARK: - Methods PATCH
     func rescheduledAppointment(appointmentId: String, newDate: String) async throws -> ScheduleAppointmentResponse? {
         
