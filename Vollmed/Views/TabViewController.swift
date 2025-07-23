@@ -9,11 +9,11 @@ import SwiftUI
 
 struct TabViewController: View {
     
-    @AppStorage("token") var token: String = ""
+    @ObservedObject private var authManager = AuthenticationManager.shared
     
     var body: some View {
         
-        if token.isEmpty {
+        if authManager.token == nil {
             SignInView()
         } else {
             TabView {

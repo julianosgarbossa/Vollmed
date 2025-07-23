@@ -11,6 +11,7 @@ struct MyAppointmentsView: View {
     
     private let service = WebService()
     @State private var appointments: [Appointment] = []
+    private var authManager = AuthenticationManager.shared
     
     var body: some View {
         ZStack {
@@ -44,7 +45,7 @@ struct MyAppointmentsView: View {
     
     // MARK: - Methods
     private func getAppointmentsFromPatient() async {
-        guard let patientId = UserDefaults.standard.string(forKey: "patientId") else {
+        guard let patientId = authManager.patientId else {
             return
         }
         do {

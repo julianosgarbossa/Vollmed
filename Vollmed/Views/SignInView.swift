@@ -16,6 +16,8 @@ struct SignInView: View {
     @State private var showAlert: Bool = false
     @State private var isLoading: Bool = false
     
+    private var authManager = AuthenticationManager.shared
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -87,8 +89,8 @@ struct SignInView: View {
         self.isLoading = true
         do {
             if let result = try await self.service.loginPatient(email: email, password: password) {
-                UserDefaultsHelper.save(value: result.token, key: "token")
-                UserDefaultsHelper.save(value: result.id, key: "patientId")
+                authManager.saveToken(token: result.token)
+                authManager.savePatientId(patientId: result.id)
                 self.isLoading = false
             } else {
                 self.isLoading = false

@@ -16,6 +16,8 @@ struct HomeView: View {
     @State private var alertMessage = ""
     @State private var showAlertLogout: Bool = false
     
+    private var authManager = AuthenticationManager.shared
+    
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
@@ -98,8 +100,8 @@ struct HomeView: View {
     private func logoutPatient() async {
         do {
             if try await self.service.logoutPatient() {
-                UserDefaultsHelper.remove(key: "token")
-                UserDefaultsHelper.remove(key: "patientId")
+                authManager.removeToken()
+                authManager.removePatientId()
             } else {
                 self.showAlertLogout = true
             }

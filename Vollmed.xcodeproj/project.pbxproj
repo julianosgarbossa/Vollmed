@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A59CF152E31174B000260F9 /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CF142E31174B000260F9 /* UserDefaultsHelper.swift */; };
+		3A59CF172E3176EE000260F9 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CF162E3176EE000260F9 /* KeychainHelper.swift */; };
 		3ACA11F82E29492300D39888 /* ScheduleAppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACA11F72E29492300D39888 /* ScheduleAppointmentView.swift */; };
 		3ACA11FF2E297A0600D39888 /* ScheduleAppointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACA11FE2E297A0600D39888 /* ScheduleAppointment.swift */; };
 		3ACA12012E2A9C3C00D39888 /* MyAppointmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACA12002E2A9C3C00D39888 /* MyAppointmentsView.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		3A59CF142E31174B000260F9 /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
+		3A59CF162E3176EE000260F9 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		3ACA11F72E29492300D39888 /* ScheduleAppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAppointmentView.swift; sourceTree = "<group>"; };
 		3ACA11FE2E297A0600D39888 /* ScheduleAppointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAppointment.swift; sourceTree = "<group>"; };
 		3ACA12002E2A9C3C00D39888 /* MyAppointmentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAppointmentsView.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3AAAB8142E31805E000C2CFC /* Managers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Managers; sourceTree = "<group>"; };
 		3ACA11F92E29688B00D39888 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -116,6 +119,7 @@
 			children = (
 				484BEEFE2AB0F59D0033C07A /* WebService.swift */,
 				3A59CF142E31174B000260F9 /* UserDefaultsHelper.swift */,
+				3A59CF162E3176EE000260F9 /* KeychainHelper.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -139,6 +143,7 @@
 		48539DEB2AB0F47C005BD7C9 /* Vollmed */ = {
 			isa = PBXGroup;
 			children = (
+				3AAAB8142E31805E000C2CFC /* Managers */,
 				3ACA11F92E29688B00D39888 /* Extensions */,
 				484BEEFB2AB0F56C0033C07A /* Services */,
 				484BEEFA2AB0F5680033C07A /* Models */,
@@ -174,6 +179,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				3AAAB8142E31805E000C2CFC /* Managers */,
 				3ACA11F92E29688B00D39888 /* Extensions */,
 			);
 			name = Vollmed;
@@ -250,6 +256,7 @@
 				3A59CF152E31174B000260F9 /* UserDefaultsHelper.swift in Sources */,
 				3ACA120B2E2ED66C00D39888 /* SignUpView.swift in Sources */,
 				48539DED2AB0F47C005BD7C9 /* VollmedApp.swift in Sources */,
+				3A59CF172E3176EE000260F9 /* KeychainHelper.swift in Sources */,
 				3ACA12032E2A9C9600D39888 /* TabViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,6 +11,7 @@ struct WebService {
     
     private let baseURL = "http://localhost:3000"
     private let imageCache = NSCache<NSString, UIImage>()
+    private var authManager = AuthenticationManager.shared
 
     // MARK: - Methods GET
     func downloadImage(imageURL: String) async throws -> UIImage? {
@@ -60,7 +61,7 @@ struct WebService {
             return nil
         }
         
-        guard let token = UserDefaultsHelper.get(key: "token") else {
+        guard let token = authManager.token else {
             print("Token não encontrado!")
             return nil
         }
@@ -89,7 +90,7 @@ struct WebService {
             return nil
         }
         
-        guard let token = UserDefaultsHelper.get(key: "token") else {
+        guard let token = authManager.token else {
             print("Token não encontrado!")
             return nil
         }
@@ -172,7 +173,7 @@ struct WebService {
             return false
         }
         
-        guard let token = UserDefaultsHelper.get(key: "token") else {
+        guard let token = authManager.token else {
             print("Token não encontrado!")
             return false
         }
@@ -201,7 +202,7 @@ struct WebService {
             return nil
         }
         
-        guard let token = UserDefaultsHelper.get(key: "token") else {
+        guard let token = authManager.token else {
             print("Token não encontrado!")
             return nil
         }
@@ -233,7 +234,7 @@ struct WebService {
             return false
         }
         
-        guard let token = UserDefaultsHelper.get(key: "token") else {
+        guard let token = authManager.token else {
             print("Token não encontrado!")
             return false
         }
