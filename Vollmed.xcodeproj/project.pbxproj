@@ -19,6 +19,7 @@
 		3ACA120F2E2FE19600D39888 /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACA120E2E2FE19600D39888 /* TextFieldView.swift */; };
 		3ACA12112E2FE6F300D39888 /* SecureFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACA12102E2FE6F300D39888 /* SecureFieldView.swift */; };
 		3ACA121B2E30000A00D39888 /* Patient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACA121A2E30000A00D39888 /* Patient.swift */; };
+		3ACA121D2E30261600D39888 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACA121C2E30261600D39888 /* Login.swift */; };
 		484BEEFD2AB0F5750033C07A /* Specialist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484BEEFC2AB0F5750033C07A /* Specialist.swift */; };
 		484BEEFF2AB0F59D0033C07A /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484BEEFE2AB0F59D0033C07A /* WebService.swift */; };
 		484BEF012AB0F6090033C07A /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484BEF002AB0F6090033C07A /* ButtonView.swift */; };
@@ -42,6 +43,7 @@
 		3ACA120E2E2FE19600D39888 /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
 		3ACA12102E2FE6F300D39888 /* SecureFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureFieldView.swift; sourceTree = "<group>"; };
 		3ACA121A2E30000A00D39888 /* Patient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Patient.swift; sourceTree = "<group>"; };
+		3ACA121C2E30261600D39888 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		484BEEFC2AB0F5750033C07A /* Specialist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Specialist.swift; sourceTree = "<group>"; };
 		484BEEFE2AB0F59D0033C07A /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
 		484BEF002AB0F6090033C07A /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				3ACA11FE2E297A0600D39888 /* ScheduleAppointment.swift */,
 				3ACA12042E2AAE1100D39888 /* Appointment.swift */,
 				3ACA121A2E30000A00D39888 /* Patient.swift */,
+				3ACA121C2E30261600D39888 /* Login.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ACA121D2E30261600D39888 /* Login.swift in Sources */,
 				3ACA12052E2AAE1100D39888 /* Appointment.swift in Sources */,
 				3ACA11F82E29492300D39888 /* ScheduleAppointmentView.swift in Sources */,
 				484BEF052AB0F7970033C07A /* HomeView.swift in Sources */,
