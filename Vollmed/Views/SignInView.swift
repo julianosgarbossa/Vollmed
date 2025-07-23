@@ -14,49 +14,64 @@ struct SignInView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showAlert: Bool = false
+    @State private var isLoading: Bool = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Image(.logo)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: 36, alignment: .center)
+        ZStack {
             
-            Text("Olá!")
-                .font(.title2)
-                .bold()
-                .foregroundStyle(.accent)
-            
-            Text("Preencha para acessar sua conta.")
-                .font(.title3)
-                .foregroundStyle(.gray)
-                .padding(.bottom)
-            
-            TextView(text: "Email")
-            
-            TextFieldView(placeholder: "Insira seu email", text: $email, keyboardType: .emailAddress)
-            
-            TextView(text: "Senha")
-            
-            SecureFieldView(placeholder: "Insira sua senha", text: $password)
-            
-            Button(action:{
-                Task {
-                    await self.loginPatient()
-                }
-            }, label: {
-                ButtonView(text: "Entrar")
-            })
-            
-            NavigationLink {
-                SignUpView()
-            } label: {
-                Text("Ainda não possui uma conta? Cadastre-se.")
+            VStack(alignment: .leading, spacing: 16) {
+                Image(.logo)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: 36, alignment: .center)
+                
+                Text("Olá!")
+                    .font(.title2)
                     .bold()
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .foregroundStyle(.accent)
+                
+                Text("Preencha para acessar sua conta.")
+                    .font(.title3)
+                    .foregroundStyle(.gray)
+                    .padding(.bottom)
+                
+                TextView(text: "Email")
+                
+                TextFieldView(placeholder: "Insira seu email", text: $email, keyboardType: .emailAddress)
+                
+                TextView(text: "Senha")
+                
+                SecureFieldView(placeholder: "Insira sua senha", text: $password)
+                
+                Button(action:{
+                    Task {
+                        await self.loginPatient()
+                    }
+                }, label: {
+                    ButtonView(text: "Entrar")
+                })
+                
+                NavigationLink {
+                    SignUpView()
+                } label: {
+                    Text("Ainda não possui uma conta? Cadastre-se.")
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
+            .padding()
+            .disabled(isLoading) // Desabilita interação durante loading
+            .blur(radius: isLoading ? 2 : 0) // Desfoca o fundo quando está carregando
+            
+            if isLoading {
+                Color.black.opacity(0.3)
+                    .ignoresSafeArea()
+                
+                ProgressView("Carregando...")
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(1.5)
             }
         }
-        .padding()
         .alert("Error", isPresented: $showAlert, actions: {
             Button("OK") {
                 showAlert = false
@@ -64,20 +79,26 @@ struct SignInView: View {
         }, message: {
             Text("Erro ao efetuar o login do paciente. Tente novamente!")
         })
+        .onDisappear() {
+            showAlert = false
+            isLoading = false
+        }
     }
     
     //MARK: - Methods
     private func loginPatient() async {
+        self.isLoading = true
         do {
             if let result = try await self.service.loginPatient(email: email, password: password) {
-                print("Usuário Logado com Sucesso!")
-                print("---------------------------")
-                print(result)
-                print("---------------------------")
+                UserDefaultsHelper.save(value: result.token, key: "token")
+                UserDefaultsHelper.save(value: result.path, key: "path")
+                self.isLoading = false
             } else {
+                self.isLoading = false
                 showAlert = true
             }
         } catch {
+            self.isLoading = false
             showAlert = true
             print("Ocorreu um erro ao realizar o login do paciente: \(error.localizedDescription)")
         }

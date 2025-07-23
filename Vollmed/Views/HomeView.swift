@@ -40,7 +40,7 @@ struct HomeView: View {
             }
             .padding(.horizontal)
         }
-        .padding(.top)
+        .padding(.top, 0)
         .onAppear() {
             Task {
                 await self.getSpecialists()
@@ -55,6 +55,9 @@ struct HomeView: View {
         }, message: {
             Text(alertMessage)
         })
+        .onDisappear() {
+            showAlert = false
+        }
     }
     
     // MARK: - Methods
@@ -65,8 +68,8 @@ struct HomeView: View {
                 self.specialists = result
             }
         } catch {
-            self.alertMessage = "Ocorreu um erro ao obter os especialistas: \(error.localizedDescription)"
             showAlert = true
+            self.alertMessage = "Ocorreu um erro ao obter os especialistas: \(error.localizedDescription)"
         }
     }
 }

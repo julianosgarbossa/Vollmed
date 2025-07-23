@@ -23,16 +23,21 @@ struct MyAppointmentsView: View {
             } else {
                 ScrollView {
                     VStack {
+                        Text("Minhas Consultas")
+                            .font(.title2)
+                            .bold()
+                            .foregroundStyle(.accent)
+                            .padding(.bottom, 8)
+                        
                         ForEach(appointments) { appointment in
                             SpecialistCardView(specialist: appointment.specialist, appointment: appointment)
                         }
                     }
                 }
+                .padding(.top, 0)
             }
         }
         .scrollIndicators(.hidden)
-        .navigationTitle("Minhas Consultas")
-        .navigationBarTitleDisplayMode(.large)
         .padding()
         .onAppear() {
             Task {

@@ -110,6 +110,9 @@ struct SignUpView: View {
         }, message: {
             Text(isPatientRegistered ? "Paciente registrado com sucesso." : "Erro ao registar paciente. Tente novamente!")
         })
+        .onDisappear() {
+            showAlert = false
+        }
     }
     
     // MARK: - Methods

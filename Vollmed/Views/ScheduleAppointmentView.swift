@@ -62,6 +62,9 @@ struct ScheduleAppointmentView: View {
         }, message: {
             Text(isAppointmentScheduled ? "Consulta \(isRescheduleView ? "reagendada" : "agendada") com sucesso." : "Ocorreu um erro ao \(isRescheduleView ? "reagendar" : "agendar") a consulta. Por favor tente novamente.")
         })
+        .onDisappear() {
+            showAlert = false
+        }
     }
     
     // MARK: - Methods

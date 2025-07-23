@@ -57,6 +57,9 @@ struct CancelAppointmentView: View {
         }, message: {
             Text(appointmentIsCanceled ? "Consulta cancelada com sucesso." : "Erro ao cancelar a consulta. Tente novamente!")
         })
+        .onDisappear() {
+            showAlert = false
+        }
     }
     
     // MARK: - Methods
