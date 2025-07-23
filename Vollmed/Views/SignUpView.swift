@@ -86,19 +86,11 @@ struct SignUpView: View {
                 } label: {
                     ButtonView(text: "Cadastrar")
                 }
-                
-                Button {
-                    self.dismiss()
-                } label: {
-                    Text("Já possuí uma conta? Faça o login!")
-                        .bold()
-                        .foregroundStyle(.accent)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
             }
         }
         .scrollIndicators(.hidden)
-        .navigationBarBackButtonHidden()
+        .navigationTitle("Cadastrar Paciente")
+        .navigationBarTitleDisplayMode(.inline)
         .padding()
         .alert(isPatientRegistered ? "Sucesso" : "Error", isPresented: $showAlert, actions: {
             Button("OK") {
@@ -110,9 +102,6 @@ struct SignUpView: View {
         }, message: {
             Text(isPatientRegistered ? "Paciente registrado com sucesso." : "Erro ao registar paciente. Tente novamente!")
         })
-        .onDisappear() {
-            showAlert = false
-        }
     }
     
     // MARK: - Methods

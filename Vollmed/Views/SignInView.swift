@@ -17,59 +17,60 @@ struct SignInView: View {
     @State private var isLoading: Bool = false
     
     var body: some View {
-        ZStack {
-            
-            VStack(alignment: .leading, spacing: 16) {
-                Image(.logo)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity, maxHeight: 36, alignment: .center)
-                
-                Text("Olá!")
-                    .font(.title2)
-                    .bold()
-                    .foregroundStyle(.accent)
-                
-                Text("Preencha para acessar sua conta.")
-                    .font(.title3)
-                    .foregroundStyle(.gray)
-                    .padding(.bottom)
-                
-                TextView(text: "Email")
-                
-                TextFieldView(placeholder: "Insira seu email", text: $email, keyboardType: .emailAddress)
-                
-                TextView(text: "Senha")
-                
-                SecureFieldView(placeholder: "Insira sua senha", text: $password)
-                
-                Button(action:{
-                    Task {
-                        await self.loginPatient()
-                    }
-                }, label: {
-                    ButtonView(text: "Entrar")
-                })
-                
-                NavigationLink {
-                    SignUpView()
-                } label: {
-                    Text("Ainda não possui uma conta? Cadastre-se.")
+        NavigationStack {
+            ZStack {
+                VStack(alignment: .leading, spacing: 16) {
+                    Image(.logo)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: 36, alignment: .center)
+                    
+                    Text("Olá!")
+                        .font(.title2)
                         .bold()
-                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundStyle(.accent)
+                    
+                    Text("Preencha para acessar sua conta.")
+                        .font(.title3)
+                        .foregroundStyle(.gray)
+                        .padding(.bottom)
+                    
+                    TextView(text: "Email")
+                    
+                    TextFieldView(placeholder: "Insira seu email", text: $email, keyboardType: .emailAddress)
+                    
+                    TextView(text: "Senha")
+                    
+                    SecureFieldView(placeholder: "Insira sua senha", text: $password)
+                    
+                    Button(action:{
+                        Task {
+                            await self.loginPatient()
+                        }
+                    }, label: {
+                        ButtonView(text: "Entrar")
+                    })
+                    
+                    NavigationLink {
+                        SignUpView()
+                    } label: {
+                        Text("Ainda não possui uma conta? Cadastre-se.")
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                 }
-            }
-            .padding()
-            .disabled(isLoading) // Desabilita interação durante loading
-            .blur(radius: isLoading ? 2 : 0) // Desfoca o fundo quando está carregando
-            
-            if isLoading {
-                Color.black.opacity(0.3)
-                    .ignoresSafeArea()
+                .padding()
+                .disabled(isLoading) // Desabilita interação durante loading
+                .blur(radius: isLoading ? 2 : 0) // Desfoca o fundo quando está carregando
                 
-                ProgressView("Carregando...")
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(1.5)
+                if isLoading {
+                    Color.black.opacity(0.3)
+                        .ignoresSafeArea()
+                    
+                    ProgressView("Carregando...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .scaleEffect(1.5)
+                }
             }
         }
         .alert("Error", isPresented: $showAlert, actions: {
@@ -79,10 +80,6 @@ struct SignInView: View {
         }, message: {
             Text("Erro ao efetuar o login do paciente. Tente novamente!")
         })
-        .onDisappear() {
-            showAlert = false
-            isLoading = false
-        }
     }
     
     //MARK: - Methods
