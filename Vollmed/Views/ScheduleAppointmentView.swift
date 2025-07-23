@@ -66,8 +66,11 @@ struct ScheduleAppointmentView: View {
     
     // MARK: - Methods
     private func scheduleAppointment() async {
+        guard let patientId = UserDefaults.standard.string(forKey: "patientId") else {
+            return
+        }
         do {
-            if let _ = try await self.service.scheduleAppointment(specialistId: specialistId, patientId: "4d475b97-2d76-41a4-8a91-07c5f95659f5", date: selectedDate.convertToString()) {
+            if let _ = try await self.service.scheduleAppointment(specialistId: specialistId, patientId: patientId, date: selectedDate.convertToString()) {
                 isAppointmentScheduled = true
             } else {
                 isAppointmentScheduled = false

@@ -29,6 +29,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }); // expira em 24 horas
 
     res.status(200).json({
+      id: id,
       auth: true,
       token,
       rota,

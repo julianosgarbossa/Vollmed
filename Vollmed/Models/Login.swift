@@ -7,12 +7,14 @@
 
 import Foundation
 
-struct LoginResponse: Codable {
+struct LoginResponse: Identifiable, Codable {
+    let id: String
     let auth: Bool
     let token: String
     let path: String
     
     enum CodingKeys: String, CodingKey {
+        case id
         case auth
         case token
         case path = "rota"

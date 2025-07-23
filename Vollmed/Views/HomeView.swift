@@ -99,6 +99,7 @@ struct HomeView: View {
         do {
             if try await self.service.logoutPatient() {
                 UserDefaultsHelper.remove(key: "token")
+                UserDefaultsHelper.remove(key: "patientId")
             } else {
                 self.showAlertLogout = true
             }

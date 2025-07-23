@@ -44,8 +44,11 @@ struct MyAppointmentsView: View {
     
     // MARK: - Methods
     private func getAppointmentsFromPatient() async {
+        guard let patientId = UserDefaults.standard.string(forKey: "patientId") else {
+            return
+        }
         do {
-            if let result = try await self.service.getAllAppointmentsFromPatient(patientId: "4d475b97-2d76-41a4-8a91-07c5f95659f5") {
+            if let result = try await self.service.getAllAppointmentsFromPatient(patientId: patientId) {
                 self.appointments = result
             }
         } catch {

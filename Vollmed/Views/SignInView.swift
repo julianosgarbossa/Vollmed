@@ -88,7 +88,7 @@ struct SignInView: View {
         do {
             if let result = try await self.service.loginPatient(email: email, password: password) {
                 UserDefaultsHelper.save(value: result.token, key: "token")
-                UserDefaultsHelper.save(value: result.path, key: "path")
+                UserDefaultsHelper.save(value: result.id, key: "patientId")
                 self.isLoading = false
             } else {
                 self.isLoading = false
