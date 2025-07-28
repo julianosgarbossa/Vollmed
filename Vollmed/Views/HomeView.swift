@@ -9,14 +9,13 @@ import SwiftUI
 
 struct HomeView: View {
     
-    private let service = WebService()
+    private var viewModel = HomeViewModel(service: HomeNetworkingService(),
+                                          authService: AuthenticationService())
     
     @State private var specialists: [Specialist] = []
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var showAlertLogout: Bool = false
-    
-    private var authManager = AuthenticationManager.shared
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -49,7 +48,7 @@ struct HomeView: View {
                 await self.getSpecialists()
             }
         }
-        .alert("Error", isPresented: $showAlert, actions: {
+        .alert("Erro", isPresented: $showAlert, actions: {
             Button("Tentar Novamente") {
                 Task {
                     await self.getSpecialists()
@@ -62,7 +61,7 @@ struct HomeView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     Task {
-                        await logoutPatient()
+                        await self.logoutPatient()
                     }
                 } label: {
                     HStack(spacing: 2) {
@@ -75,39 +74,40 @@ struct HomeView: View {
         }
         .navigationTitle("Especialistas")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("Error", isPresented: $showAlertLogout) {
+        .alert("Erro", isPresented: $showAlertLogout) {
             Button("OK") {
                 showAlertLogout = false
             }
         } message: {
-            Text("Ocorreu um erro ao realizar o logout do paciente. Tente novamente!")
+            Text(alertMessage)
         }
     }
     
     // MARK: - Methods
     private func getSpecialists() async {
         do {
-            let result = try await self.service.getAllSpecialists()
-            if let result {
-                self.specialists = result
+            guard let response = try await self.viewModel.getSpecialists() else { return }
+            if response.isEmpty {
+                self.showAlert = true
+                self.alertMessage = "Nenhum especialista cadastrado. Tente Novamente!"
+            } else {
+                self.specialists = response
             }
         } catch {
-            showAlert = true
-            self.alertMessage = "Ocorreu um erro ao obter os especialistas: \(error.localizedDescription)"
+            self.showAlert = true
+            self.alertMessage = "Ocorreu um erro ao buscar os especialistas: \(error.localizedDescription) Tente novamente!"
         }
     }
     
     private func logoutPatient() async {
         do {
-            if try await self.service.logoutPatient() {
-                authManager.removeToken()
-                authManager.removePatientId()
-            } else {
+            if try await self.viewModel.logoutPatient() == false {
+                self.alertMessage = "Ocorreu um erro ao realizar logout do paciente. Tente Novamente!"
                 self.showAlertLogout = true
             }
         } catch {
+            self.alertMessage = "Ocorreu um erro ao realizar logout do paciente: \(error.localizedDescription) Tente Novamente!"
             self.showAlertLogout = true
-            print("Ocorreu um erro ao realizar o logout do paciente: \(error.localizedDescription)")
         }
     }
 }

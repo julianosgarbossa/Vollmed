@@ -26,7 +26,9 @@ class AuthenticationManager: ObservableObject {
     
     func removeToken() {
         KeychainHelper.remove(key: "token")
-        self.token = nil
+        DispatchQueue.main.async {
+            self.token = nil
+        }
     }
     
     func savePatientId(patientId: String) {
@@ -36,6 +38,8 @@ class AuthenticationManager: ObservableObject {
     
     func removePatientId() {
         KeychainHelper.remove(key: "patientId")
-        self.patientId = nil
+        DispatchQueue.main.async {
+            self.patientId = nil
+        }
     }
 }

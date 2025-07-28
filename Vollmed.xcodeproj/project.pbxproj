@@ -60,6 +60,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3A0975DF2E32C36600AB1F4D /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
+		3A0975E42E34310300AB1F4D /* Networking */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Networking; sourceTree = "<group>"; };
+		3A98F8882E380C050014C83B /* New Folder */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "New Folder"; sourceTree = "<group>"; };
 		3AAAB8142E31805E000C2CFC /* Managers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Managers; sourceTree = "<group>"; };
 		3ACA11F92E29688B00D39888 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -143,6 +146,9 @@
 		48539DEB2AB0F47C005BD7C9 /* Vollmed */ = {
 			isa = PBXGroup;
 			children = (
+				3A98F8882E380C050014C83B /* New Folder */,
+				3A0975E42E34310300AB1F4D /* Networking */,
+				3A0975DF2E32C36600AB1F4D /* ViewModels */,
 				3AAAB8142E31805E000C2CFC /* Managers */,
 				3ACA11F92E29688B00D39888 /* Extensions */,
 				484BEEFB2AB0F56C0033C07A /* Services */,
@@ -179,6 +185,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				3A0975DF2E32C36600AB1F4D /* ViewModels */,
+				3A0975E42E34310300AB1F4D /* Networking */,
+				3A98F8882E380C050014C83B /* New Folder */,
 				3AAAB8142E31805E000C2CFC /* Managers */,
 				3ACA11F92E29688B00D39888 /* Extensions */,
 			);
