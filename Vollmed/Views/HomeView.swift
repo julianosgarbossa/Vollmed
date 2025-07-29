@@ -13,73 +13,87 @@ struct HomeView: View {
                                           authService: AuthenticationService())
     
     @State private var specialists: [Specialist] = []
+    @State private var isShowingSnackBar = false
+    @State private var errorMessage: String = ""
+    @State private var isFetchingData: Bool = true
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var showAlertLogout: Bool = false
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack {
-                Image(.logo)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 200)
-                    .padding(.vertical, 32)
-                Text("Boas-vindas!")
-                    .font(.title2)
-                    .bold()
-                    .foregroundStyle(.lightBlue)
-                Text("Veja abaixo os especialistas da Vollmed disponíveis e marque já a sua consulta!")
-                    .font(.title3)
-                    .bold()
-                    .foregroundStyle(.accent)
-                    .multilineTextAlignment(.center)
-                    .padding(.vertical, 16)
-                ForEach(specialists) { specialist in
-                    SpecialistCardView(specialist: specialist)
-                        .padding(.bottom, 8)
+        ZStack {
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    Image(.logo)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200)
+                        .padding(.vertical, 32)
+                    Text("Boas-vindas!")
+                        .font(.title2)
+                        .bold()
+                        .foregroundStyle(.lightBlue)
+                    Text("Veja abaixo os especialistas da Vollmed disponíveis e marque já a sua consulta!")
+                        .font(.title3)
+                        .bold()
+                        .foregroundStyle(.accent)
+                        .multilineTextAlignment(.center)
+                        .padding(.vertical, 16)
+                    
+                    if isFetchingData {
+                        SkeletonView()
+                    } else {
+                        ForEach(specialists) { specialist in
+                            SpecialistCardView(specialist: specialist)
+                                .padding(.bottom, 8)
+                        }
+                    }
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
-        }
-        .padding(.top, 0)
-        .onAppear() {
-            Task {
-                await self.getSpecialists()
-            }
-        }
-        .alert("Erro", isPresented: $showAlert, actions: {
-            Button("Tentar Novamente") {
+            .padding(.top, 0)
+            .onAppear() {
                 Task {
+                    sleep(4)
                     await self.getSpecialists()
                 }
             }
-        }, message: {
-            Text(alertMessage)
-        })
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
+            .alert("Erro", isPresented: $showAlert, actions: {
+                Button("Tentar Novamente") {
                     Task {
-                        await self.logoutPatient()
-                    }
-                } label: {
-                    HStack(spacing: 2) {
-                        Image(systemName: "rectangle.portrait.and.arrow.right")
-                        Text("Logout")
+                        await self.getSpecialists()
                     }
                 }
-                
+            }, message: {
+                Text(alertMessage)
+            })
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        Task {
+                            await self.logoutPatient()
+                        }
+                    } label: {
+                        HStack(spacing: 2) {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                            Text("Logout")
+                        }
+                    }
+                    
+                }
             }
-        }
-        .navigationTitle("Especialistas")
-        .navigationBarTitleDisplayMode(.inline)
-        .alert("Erro", isPresented: $showAlertLogout) {
-            Button("OK") {
-                showAlertLogout = false
+            .navigationTitle("Especialistas")
+            .navigationBarTitleDisplayMode(.inline)
+            .alert("Erro", isPresented: $showAlertLogout) {
+                Button("OK") {
+                    showAlertLogout = false
+                }
+            } message: {
+                Text(alertMessage)
             }
-        } message: {
-            Text(alertMessage)
+            if isShowingSnackBar {
+                SnackBarErrorView(isShowing: $isShowingSnackBar, message: errorMessage)
+            }
         }
     }
     
@@ -94,8 +108,9 @@ struct HomeView: View {
                 self.specialists = response
             }
         } catch {
-            self.showAlert = true
-            self.alertMessage = "Ocorreu um erro ao buscar os especialistas: \(error.localizedDescription) Tente novamente!"
+            isShowingSnackBar = true
+            let errorType = error as? RequestError
+            errorMessage = errorType?.customMessage ?? ""
         }
     }
     
